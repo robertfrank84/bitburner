@@ -1,11 +1,20 @@
+import {ExtendedLog} from "./scripts/lib/extendedLog";
+
+/** @member {ExtendedLog} */
+let el = null;
+
+const SCRIPT_NAME = 'EZhack.js';
+
 /** @param {NS} ns */
 export async function main(ns) {
+    el = new ExtendedLog(ns, SCRIPT_NAME);
+
     // taget server to hack
     const target = ns.args[0] || 'joesguns';
     const moneyThresh = ns.getServerMaxMoney(target) * 0.75;
     const securityThresh = ns.getServerMinSecurityLevel(target) + 2;
 
-    ns.nuke(target);
+    el.start();
 
     // Infinite loop that continously hacks/grows/weakens the target server
     while (true) {
@@ -15,7 +24,7 @@ export async function main(ns) {
         if (ns.getServerSecurityLevel(target) > securityThresh) {
             await ns.weaken(target);
         } else if (serverMoney < moneyThresh) {
-            ns.print(percent , "% - " , serverMoney , "/" , moneyThresh , " (Money on server/max Money)");
+            el.log(percent + "% - " + serverMoney + "/" + moneyThresh + " (Money on server/max Money)");
             await ns.grow(target);
         } else {
             // Otherwise, hack it
