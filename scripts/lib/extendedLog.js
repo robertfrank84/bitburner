@@ -23,19 +23,23 @@ export class ExtendedLog {
     }
 
     /**
-     * @param {string} [msg]
+     * @param {string|number|array} [msg]
      */
     log = (msg = '') => {
         const date = new Date();
-        const textArr = this.#lineBreak(msg);
+        const textArr = this.#lineBreak(String(msg));
         let lineFiller = 0;
 
         for (let i = 0; i < textArr.length; i++) {
-            if (i === 0) {
-                this.#ns.printf('║ %1$s: %2$s║',date.toLocaleTimeString('de-DE') , textArr[i]);
-            } else {
-                lineFiller = this.#standardLogWidth - 12 - textArr[i].length;
+            lineFiller = this.#standardLogWidth - 12 - textArr[i].length;
 
+            if (i === 0) {
+                this.#ns.printf(
+                    '║ %1$s: %2$s' + '║'.padStart(lineFiller, ' '),
+                    date.toLocaleTimeString('de-DE'),
+                    textArr[i]
+                );
+            } else {
                 this.#ns.printf(
                     '║'.padEnd(12, ' ') +
                     textArr[i] +
@@ -62,7 +66,7 @@ export class ExtendedLog {
 
     /**
      *
-     * @param msg
+     * @param {string} msg
      * @returns {[]}
      */
     #lineBreak = (msg) => {
