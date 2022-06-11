@@ -1,9 +1,22 @@
 /** @param {NS} ns **/
 export async function main(ns) {
-    const target = ns.args[0] || 'joesguns';
-    // let ram = ns.getPurchasedServerMaxRam(); // return: 1048576
-    // ns.print(ram + "GB RAM cost $" + ns.getPurchasedServerCost(ram)); // $57.671.680.000
-    const ram = ns.args[1] || 4096;
+    const flags = ns.flags([
+        ['r', 4], // ram multiplier
+        ['target', 'joesguns'], // target server
+        ['help', false] // tprints all flags if true
+    ]);
+
+    if (flags.help) {
+        ns.tprint('Possible flags for this script are:');
+        ns.tprint('-r: RAM multiplier. Has to be power of 2');
+        ns.tprint('--target: name of the targeted server');
+        ns.tprint('--help: flag helper');
+        return;
+    }
+
+    const target = flags.target;
+    const ram = flags.r * 1024;
+
     const allScripts = ns.ls("home", "/scripts/");
     const hackScript = "/scripts/EZhack.js";
     const maxThreads = Math.floor(ram / ns.getScriptRam(hackScript));
@@ -63,5 +76,5 @@ export async function main(ns) {
             await ns.sleep(30000);
         }
     }
-    ns.print("Server limit reached.");
+    ns.tprint("Server limit reached.");
 }

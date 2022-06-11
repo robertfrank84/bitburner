@@ -7,11 +7,19 @@ const SCRIPT_NAME = 'purchaseHacknetNode.js';
 
 /** @param {NS} ns */
 export async function main(ns) {
-    // TODO: Helper that shows all possible flags in the terminal
     const flags = ns.flags([
         ['n', 25],  // max number of nodes
-        ['w', 10000] // time to wait in ms
+        ['w', 10000], // time to wait in ms
+        ['help', false] // tprints all flags if true
     ]);
+
+    if (flags.help) {
+        ns.tprint('Possible flags for this script are:');
+        ns.tprint('-n: max number of nodes to be purchased');
+        ns.tprint('-w: time to wait between intervals in ms');
+        ns.tprint('--help: flag helper');
+        return;
+    }
 
     el = new ExtendedLog(ns, SCRIPT_NAME);
 
