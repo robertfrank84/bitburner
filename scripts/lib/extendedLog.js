@@ -23,11 +23,13 @@ export class ExtendedLog {
     }
 
     /**
-     * @param {string|number|array} [msg]
+     * @param {(string|array|object|number|boolean)} msg
      */
-    log = (msg = '') => {
+    // TODO: remove array brackets and string apostrophes
+    log = (...msg) => {
+        const msgArr = [...msg];
         const date = new Date();
-        const textArr = this.#lineBreak(String(msg));
+        const textArr = this.#lineBreak(JSON.stringify(msgArr));
         let lineFiller = 0;
 
         for (let i = 0; i < textArr.length; i++) {
@@ -47,7 +49,6 @@ export class ExtendedLog {
                 );
             }
         }
-
     }
 
     #logStart = () => {

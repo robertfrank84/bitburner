@@ -7,31 +7,43 @@ export class Network {
     /** @type {HelperFunctions} */
     #hf;
 
+    /** @type {[]} Array with all the server names */
+    #knownServers = [];
+
     constructor(ns) {
         this.#ns = ns;
         this.#hf = new HelperFunctions(this.#ns);
+        this.searchAllServers();
     }
 
-
-    listAllServers = (hostname = 'home') => {
-        return this.#searchServers(hostname);
+    /**
+     * @return {string[]}
+     */
+    getKnownServers() {
+        return this.#knownServers;
     }
-
 
     /**
      * @param {string} hostname
      * @return {string[]}
      */
-    #searchServers = (hostname = 'home') => {
-        let allServers = this.#ns.scan(hostname);
+    searchAllServers = (hostname = 'home') => {
+        this.#knownServers = this.#ns.scan(hostname);
         let additionalServer = [];
-        // const layers = 3;
 
-        for(let i = 0; i < allServers.length; i++){
-            additionalServer = this.#ns.scan(allServers[i]);
-            allServers = this.#hf.uniqueItems(allServers.concat(additionalServer));
+        // TODO: condition shouldn't be changed from within the loop
+        for(let i = 0; i < this.#knownServers.length; i++){
+            additionalServer = this.#ns.scan(this.#knownServers[i]);
+            this.#knownServers = this.#hf.uniqueItems(this.#knownServers.concat(additionalServer));
         }
-
-        return allServers;
     }
+
+    /**
+     * @param {string} hostname
+     * @return {Server|null}
+     */
+    getServerByHostname = (hostname= 'home') => {
+        return this.#ns.getServer(hostname);
+    }
+
 }

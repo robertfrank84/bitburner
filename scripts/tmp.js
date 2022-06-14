@@ -16,6 +16,9 @@ export async function main(ns) {
 
     el.start();
 
-    el.log(n.listAllServers('home'));
+    el.log('hostnames: ' + n.getKnownServers());
+    el.log('Obj: ' + n.getServerByHostname());
+    el.log(n.getServerByHostname());
+    el.log('Obj: ', n.getServerByHostname());
 
 }
