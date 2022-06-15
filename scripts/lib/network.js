@@ -7,8 +7,12 @@ export class Network {
     /** @type {HelperFunctions} */
     #hf;
 
-    /** @type {[]} Array with all the server names */
-    #knownServers = [];
+    /**
+     * @type {object}
+     */
+    #knownServers = {
+        home: 0
+    };
 
     constructor(ns) {
         this.#ns = ns;
@@ -20,21 +24,45 @@ export class Network {
      * @return {string[]}
      */
     getKnownServers() {
-        return this.#knownServers;
+        return Object.keys(this.#knownServers);
     }
 
     /**
-     * @param {string} hostname
-     * @return {string[]}
+     * searchAllServers scans for all hostnames an saves them as an object in this.#knownServers
      */
-    searchAllServers = (hostname = 'home') => {
-        this.#knownServers = this.#ns.scan(hostname);
-        let additionalServer = [];
+    searchAllServers = () => {
+        // reset this.#knownServers to generate a new list
+        this.#knownServers = {
+            home: 0
+        }
 
-        // TODO: condition shouldn't be changed from within the loop
-        for(let i = 0; i < this.#knownServers.length; i++){
-            additionalServer = this.#ns.scan(this.#knownServers[i]);
-            this.#knownServers = this.#hf.uniqueItems(this.#knownServers.concat(additionalServer));
+        while (true) {
+            let target = null;
+            let newHostnames = [];
+
+            // Search in this.#knownServers for a NEW target to scan, that wasn't used before
+            for (let i = 0; i < Object.keys(this.#knownServers).length; i++) {
+                if (Object.values(this.#knownServers)[i] === 0) {
+                    target = Object.keys(this.#knownServers)[i];
+                    break;
+                }
+            }
+
+            // While-Loop breaks if no value in this.#knownServers is 0 anymore
+            if (target === null) {
+                break;
+            }
+
+            // scan with target as the host and mark target as 'used'(1) in this.#knownServers
+            newHostnames = this.#ns.scan(target);
+            this.#knownServers[target] = 1;
+
+            // add every host in newHostnames to this.#knownServers, if it doesn't exist already
+            newHostnames.forEach((host) => {
+                if (this.#knownServers[host] !== 1) {
+                    this.#knownServers[host] = 0;
+                }
+            });
         }
     }
 
