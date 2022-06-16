@@ -56,6 +56,7 @@ export class GetAccess {
 
     /**
      * @param {string} target
+     * @return {string}
      */
     getAccess = (target) => {
         const availablePrograms = this.getAvailablePrograms();
@@ -68,14 +69,16 @@ export class GetAccess {
     }
 
     /**
-     * @param {Server} server
+     * @param server
+     * @return {string}
      */
     getServerAccess = (server) => {
         return this.getAccess(server.hostname);
     }
 
     /**
-     * @param {Server[]} servers
+     * @param {{Server}}servers
+     * @return {string}
      */
     getServerListAccess = (servers) => {
         let successMsg = '';
