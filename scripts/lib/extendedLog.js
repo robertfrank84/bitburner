@@ -77,12 +77,15 @@ export class ExtendedLog {
     }
 
     /**
-     * @param {string} [mode=end] - Modes are: 'separate', 'break' and 'end'
+     * @param {string} [mode=end] - Modes are: 'empty', 'separate', 'break' and 'end'
      */
     #logSeparator = (mode = 'end') => {
         let characters;
 
         switch (mode) {
+            case 'empty':
+                characters = ['║', ' ', '║'];
+                break;
             case 'separate':
                 characters = ['╟', '─', '╢'];
                 break;
@@ -93,7 +96,7 @@ export class ExtendedLog {
                 characters = ['╚', '═', '╝'];
                 break;
             default:
-                characters = ['▒','"separate" or "break" or "end" or ','▒'];
+                characters = ['▒',' "empty" or  "separate" or  "break" or  "end" or ','▒'];
         }
         this.#ns.printf(characters[0].padEnd(this.#standardLogWidth - 1, characters[1]) + characters[2]);
     }
