@@ -16,5 +16,11 @@ export async function main(ns) {
 
     el.start();
 
-    el.log('hostnames: ' + n.getKnownServers());
+    el.log('hostnames: ', n.getKnownServers());
+
+    el.separate('separate');
+    el.separate('break');
+    el.separate('fail');
+    el.separate('end');
+    el.end();
 }

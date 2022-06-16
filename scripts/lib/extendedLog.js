@@ -22,6 +22,17 @@ export class ExtendedLog {
         this.#logStart();
     }
 
+    end = () => {
+        this.#logSeparator('end');
+    }
+
+    /**
+     * @param {string} [mode=end] - Modes are: 'separate', 'break' and 'end'
+     */
+    separate = (mode) => {
+        this.#logSeparator(mode);
+    }
+
     /**
      * @param {(string|array|object|number|boolean)} msg
      */
@@ -63,6 +74,28 @@ export class ExtendedLog {
             ' ╞' +
             '╗'.padStart(rightOfScriptName, '═')
         );
+    }
+
+    /**
+     * @param {string} [mode=end] - Modes are: 'separate', 'break' and 'end'
+     */
+    #logSeparator = (mode = 'end') => {
+        let characters;
+
+        switch (mode) {
+            case 'separate':
+                characters = ['╟', '─', '╢'];
+                break;
+            case 'break':
+                characters = ['╠', '═', '╣'];
+                break;
+            case 'end':
+                characters = ['╚', '═', '╝'];
+                break;
+            default:
+                characters = ['▒','"separate" or "break" or "end" or ','▒'];
+        }
+        this.#ns.printf(characters[0].padEnd(this.#standardLogWidth - 1, characters[1]) + characters[2]);
     }
 
     /**
