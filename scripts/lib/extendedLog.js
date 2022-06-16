@@ -5,15 +5,19 @@ export class ExtendedLog {
     /** @type {string} */
     #scriptName;
 
+    /** @type {string} */
+    #fileVersion;
+
     /** @type {number} */
     #standardLogWidth = 51;
 
     /** @type {number} */
     #standardMsgWidth = this.#standardLogWidth - 13;
 
-    constructor(ns, scriptName) {
+    constructor(ns, scriptName, fileVersion = '0') {
         this.#ns = ns;
         this.#scriptName = scriptName;
+        this.#fileVersion = fileVersion;
 
         this.#ns.disableLog('ALL');
     }
@@ -64,13 +68,14 @@ export class ExtendedLog {
 
     #logStart = () => {
         //TODO: #scriptName to long
-        let leftOfScriptName = Math.ceil((this.#standardLogWidth - this.#scriptName.length) / 2) - 2;
-        let rightOfScriptName = Math.floor((this.#standardLogWidth - this.#scriptName.length) / 2) - 2;
+        const headline = this.#scriptName + ' - v.' + this.#fileVersion;
+        let leftOfScriptName = Math.ceil((this.#standardLogWidth - headline.length) / 2) - 2;
+        let rightOfScriptName = Math.floor((this.#standardLogWidth - headline.length) / 2) - 2;
 
         this.#ns.printf(
             '╔'.padEnd(leftOfScriptName, '═') +
             '╡ ' +
-            this.#scriptName +
+            headline +
             ' ╞' +
             '╗'.padStart(rightOfScriptName, '═')
         );
