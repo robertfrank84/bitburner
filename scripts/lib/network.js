@@ -67,6 +67,7 @@ export class Network {
     }
 
     /**
+     * Get all information about a server by hostname
      * @param {string} hostname
      * @return {Server|null}
      */
@@ -74,4 +75,17 @@ export class Network {
         return this.#ns.getServer(hostname);
     }
 
+    /**
+     * @return {[]} All properties of all servers
+     */
+    getAllServerData = () => {
+        let allServerData = [];
+        for(let hostname in this.#knownServers) {
+            let serverData = this.getServerByHostname(hostname);
+            if (serverData !== null) {
+                allServerData.push(serverData);
+            }
+        }
+        return allServerData;
+    }
 }
