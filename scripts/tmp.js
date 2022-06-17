@@ -21,6 +21,7 @@ export async function main(ns) {
 
     el.log(n.getServerByHostname('zer0'));
     // el.log(ns.getPlayer());
-    // ns.print(n.getAllServerData());
+    el.logRaw(btoa(Date.now().toString()));
+    el.logRaw(Date.now().toString());
     el.end();
 }

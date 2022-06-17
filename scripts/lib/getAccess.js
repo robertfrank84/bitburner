@@ -37,14 +37,13 @@ export class GetAccess {
 
     constructor(ns) {
         this.#ns = ns;
-
     }
 
     /**
      * Checks which program is already owned
      * @return {[]}
      */
-    getAvailablePrograms = () => {
+    #getAvailablePrograms = () => {
         let availablePrograms = [];
         this.#programs.forEach(program => {
             if (this.#ns.fileExists(program.name)) {
@@ -56,10 +55,10 @@ export class GetAccess {
 
     /**
      * @param {string} target
-     * @return {string}
+     * @return {string} Success message
      */
     getAccess = (target) => {
-        const availablePrograms = this.getAvailablePrograms();
+        const availablePrograms = this.#getAvailablePrograms();
         availablePrograms.forEach(program => {
             program.execute(this.#ns, target);
         });
@@ -69,16 +68,17 @@ export class GetAccess {
     }
 
     /**
-     * @param server
-     * @return {string}
+     * @param {Object} server
+     * @param {string} server.hostname
+     * @return {string} Success message
      */
     getServerAccess = (server) => {
         return this.getAccess(server.hostname);
     }
 
     /**
-     * @param {{Server}}servers
-     * @return {string}
+     * @param {[]} servers
+     * @return {string} String of success messages
      */
     getServerListAccess = (servers) => {
         let successMsg = '';

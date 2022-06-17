@@ -66,6 +66,14 @@ export class ExtendedLog {
         }
     }
 
+    /**
+     * Just prints it
+     * @param {any} msg
+     */
+    logRaw = (msg) => {
+        this.#ns.print(msg);
+    }
+
     #logStart = () => {
         //TODO: #scriptName to long
         const headline = this.#scriptName + ' - v.' + this.#fileVersion;

@@ -48,6 +48,7 @@ export async function main(ns) {
     // TODO: add required Skill check
     // TODO: copy scripts and execute them
 
+
     /*for (let i = 0; i < servers.length; ++i) {
         const serverName = servers[i][0];
         const maxThreads = Math.floor(servers[i][2] / ns.getScriptRam(hackScript));
