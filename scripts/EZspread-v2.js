@@ -22,7 +22,7 @@ export async function main(ns) {
     el.start();
 
     const hackScript = '/scripts/EZhack.js';
-    const target = 'joesguns';
+    const target = 'the-hub';
 
     const allScripts = ns.ls("home", "/scripts/");
 

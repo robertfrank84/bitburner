@@ -2,7 +2,7 @@
 export async function main(ns) {
     const flags = ns.flags([
         ['r', 4], // ram multiplier
-        ['target', 'joesguns'], // target server
+        ['target', 'the-hub'], // target server
         ['help', false] // tprints all flags if true
     ]);
 
