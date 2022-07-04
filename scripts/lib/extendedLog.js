@@ -31,7 +31,7 @@ export class ExtendedLog {
     }
 
     /**
-     * @param {string} [mode=end] - Modes are: 'separate', 'break' and 'end'
+     * @param {string} [mode=empty,separate,break,end] - Modes are: 'empty', 'separate', 'break' and 'end'
      */
     separate = (mode) => {
         this.#logSeparator(mode);

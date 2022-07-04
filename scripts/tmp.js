@@ -20,9 +20,10 @@ export async function main(ns) {
     // el.log('hostnames: ', n.getKnownServers());
 
     el.log(n.getServerByHostname('the-hub'));
-    // el.log(ns.getPlayer());
-    el.logRaw(btoa(Date.now().toString()));
-    el.logRaw(Date.now().toString());
+    // el.log(n.getServerByHostname('home'));
+    el.logRaw(ns.getPlayer());
+    // el.logRaw(btoa(Date.now().toString()));
+    // el.logRaw(Date.now().toString());
     el.end();
     ns.toast(JSON.stringify('Tor: ' + ns.getPlayer().tor), 'success', 5000);
 }

@@ -43,7 +43,7 @@ export class GetAccess {
      * Checks which program is already owned
      * @return {[]}
      */
-    #getAvailablePrograms = () => {
+    getAvailablePrograms = () => {
         let availablePrograms = [];
         this.#programs.forEach(program => {
             if (this.#ns.fileExists(program.name)) {
@@ -58,13 +58,13 @@ export class GetAccess {
      * @return {string} Success message
      */
     getAccess = (target) => {
-        const availablePrograms = this.#getAvailablePrograms();
+        const availablePrograms = this.getAvailablePrograms();
         availablePrograms.forEach(program => {
             program.execute(this.#ns, target);
         });
         this.#ns.nuke(target);
 
-        return 'Root Access granted for [' + target + ']';
+        return target;
     }
 
     /**
@@ -82,8 +82,14 @@ export class GetAccess {
      */
     getServerListAccess = (servers) => {
         let successMsg = '';
+        let iterations = servers.length;
+
         for (let server of servers) {
-            successMsg += this.getServerAccess(server) + ', ';
+            if (--iterations) {
+                successMsg += this.getServerAccess(server) + ', ';
+            } else {
+                successMsg += this.getServerAccess(server);
+            }
         }
         return successMsg;
     }
