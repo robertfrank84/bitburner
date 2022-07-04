@@ -11,7 +11,7 @@ let n = null;
 let xs = null;
 
 const SCRIPT_NAME = 'EZspread.js';
-const VERSION = '2.1';
+const VERSION = '2.2';
 
 /** @param {NS} ns **/
 export async function main(ns) {
@@ -33,7 +33,7 @@ export async function main(ns) {
             const serverName = target.hostname
             const maxThreads = Math.floor(target.maxRam / ns.getScriptRam(hackScript));
 
-            if (target.requiredHackingSkill <= ns.getPlayer().hacking) {
+            // if (target.requiredHackingSkill <= ns.getPlayer().hacking) {
                 await ns.scp(allScripts, serverName);
                 let runningScript = ns.exec(hackScript, serverName, maxThreads);
 
@@ -42,9 +42,9 @@ export async function main(ns) {
                 } else {
                     el.log( serverName + " wasn't hacked");
                 }
-            } else {
-                el.log( target.requiredHackingSkill + ' hacking needed for: ' + serverName );
-            }
+            // } else {
+            //     el.log( target.requiredHackingSkill + ' hacking needed for: ' + serverName );
+            // }
         }
         el.separate('separate')
         await ns.sleep(180000);
