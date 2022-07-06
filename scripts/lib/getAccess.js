@@ -46,7 +46,7 @@ export class GetAccess {
     getAvailablePrograms = () => {
         let availablePrograms = [];
         this.#programs.forEach(program => {
-            if (this.#ns.fileExists(program.name)) {
+            if (this.#ns.fileExists(program.name, 'home')) {
                 availablePrograms.push(program);
             }
         })
@@ -55,25 +55,33 @@ export class GetAccess {
 
     /**
      * @param {string} target
+     * @param {int} neededOpenPorts
      * @return {string} Success message
      */
-    getAccess = (target) => {
+    getAccess = (target, neededOpenPorts) => {
         const availablePrograms = this.getAvailablePrograms();
         availablePrograms.forEach(program => {
             program.execute(this.#ns, target);
         });
-        this.#ns.nuke(target);
 
-        return target;
+        if (neededOpenPorts <= availablePrograms.length) {
+            this.#ns.nuke(target);
+
+            return target;
+        } else {
+            return 'skipped nuking ' + target
+        }
+
     }
 
     /**
      * @param {Object} server
      * @param {string} server.hostname
+     * @param {int} server.numOpenPortsRequired
      * @return {string} Success message
      */
     getServerAccess = (server) => {
-        return this.getAccess(server.hostname);
+        return this.getAccess(server.hostname, server.numOpenPortsRequired);
     }
 
     /**
