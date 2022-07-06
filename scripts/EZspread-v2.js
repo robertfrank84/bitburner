@@ -33,18 +33,16 @@ export async function main(ns) {
             const serverName = target.hostname
             const maxThreads = Math.floor(target.maxRam / ns.getScriptRam(hackScript));
 
-            // if (target.requiredHackingSkill <= ns.getPlayer().hacking) {
-                await ns.scp(allScripts, serverName);
-                let runningScript = ns.exec(hackScript, serverName, maxThreads);
+            // TODO: remove old script from target
 
-                if (runningScript !== 0) {
-                    ++doneTargets;
-                } else {
-                    el.log( serverName + " wasn't hacked");
-                }
-            // } else {
-            //     el.log( target.requiredHackingSkill + ' hacking needed for: ' + serverName );
-            // }
+            await ns.scp(allScripts, serverName);
+            let runningScript = ns.exec(hackScript, serverName, maxThreads);
+
+            if (runningScript !== 0) {
+                ++doneTargets;
+            } else {
+                el.log( serverName + " wasn't hacked");
+            }
         }
         el.separate('separate')
         await ns.sleep(180000);
