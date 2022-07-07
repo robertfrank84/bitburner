@@ -11,7 +11,7 @@ let n = null;
 let xs = null;
 
 const SCRIPT_NAME = 'EZspread.js';
-const VERSION = '2.3';
+const VERSION = '2.4';
 
 /** @param {NS} ns **/
 export async function main(ns) {
@@ -23,9 +23,16 @@ export async function main(ns) {
 
     const hackScript = '/scripts/EZhack.js';
     const allScripts = ns.ls("home", "/scripts/");
+    const fleetTarget = 'the-hub';
+    const fleetTargetData = n.getServerByHostname(fleetTarget);
     let targets;
     let numOfTargets;
     let doneTargets;
+
+    // TODO: hack fleetTarget 1st
+    // if (!fleetTargetData.hasAdminRights) {
+    //     xs.getServerAccess(fleetTargetData);
+    // }
 
     do {
         targets = n.getAllServerData().filter(server => server.maxRam > 0 && !server.purchasedByPlayer);
@@ -44,7 +51,7 @@ export async function main(ns) {
                 }
 
                 await ns.scp(allScripts, serverName);
-                let runningScript = ns.exec(hackScript, serverName, maxThreads);
+                let runningScript = ns.exec(hackScript, serverName, maxThreads, fleetTarget);
 
                 if (runningScript !== 0) {
                     ++doneTargets;
